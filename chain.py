@@ -1,9 +1,9 @@
-import re
 import requests
 from bs4 import BeautifulSoup
 from langchain.llms import OpenAI
 from langchain.chains import AnalyzeDocumentChain
 from langchain.chains.question_answering import load_qa_chain
+from ingest.preprocess_profile_data import preprocess_profile
 
 
 llm = OpenAI(temperature=0)
@@ -21,20 +21,6 @@ def get_context(url: str, query: str):
     return run_qa_document_chain(cleaned_profile, query)
 
 
-def preprocess_profile(raw_data: str):
-    # Remove all obsolete whitespace
-    cleaned_str = re.sub(r'\s+', ' ', raw_data)
-
-    # Remove the final "Zurück" in every profile
-    cleaned_str = cleaned_str.replace('Zurück', '')
-
-    # Insert whitespace between numbers and letters
-    pattern = r'([a-zA-Z])(\d)'
-    cleaned_str = re.sub(pattern, r'\1 \2', cleaned_str)
-
-    return cleaned_str
-
-
 def run_qa_document_chain(input_document: str, query: str):
 
     question = (f"Antworte auf Deutsch und halte dich kurz. Beginne deine "
@@ -44,6 +30,13 @@ def run_qa_document_chain(input_document: str, query: str):
                 f"dieser Frage: {query}. Bitte erläutere und verwende "
                 f"wenn möglich Verweise auf den Text. Nenne "
                 f"auch den Namen der Person in deinem Text.")
+
+    # versuche eine verbindung zu finden, wo die person helfen könnte
+    # API implementieren / statt Panel
+
+    # websocket / stream - statt request
+    # bis alle nachrichten fertig gesendet wurden
+    # Datenaustausch zwischen Modell und Frontend
 
     return qa_document_chain.run(
         input_document=input_document,
