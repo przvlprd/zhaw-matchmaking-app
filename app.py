@@ -16,8 +16,13 @@ def callback(user_input: str, user: str, instance: pn.chat.ChatInterface):
         context = get_context(name, url, user_input)
         send_message(context)
 
-    # ToDo: update method to send messages (asynchronous?)
-    # return message
+
+def send_message(message: str):
+    chat_interface.send(
+        value=message,
+        user="MatchMaking Bot",
+        respond=False
+    )
 
 
 chat_interface = pn.chat.ChatInterface(
@@ -31,11 +36,3 @@ chat_interface.send(
 )
 
 chat_interface.servable()
-
-
-def send_message(message: str):
-    chat_interface.send(
-        value=message,
-        user="MatchMaking Bot",
-        respond=False
-    )

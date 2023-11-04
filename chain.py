@@ -5,7 +5,6 @@ from langchain.chains import AnalyzeDocumentChain
 from langchain.chains.question_answering import load_qa_chain
 from ingest.preprocess_profile_data import preprocess_profile
 
-
 llm = OpenAI(temperature=0)
 qa_chain = load_qa_chain(llm, chain_type="map_reduce")
 qa_document_chain = AnalyzeDocumentChain(combine_docs_chain=qa_chain)
@@ -23,20 +22,12 @@ def get_context(name: str, url: str, query: str) -> str:
 
 def run_qa_document_chain(name: str, input_document: str, query: str):
 
-    question = (f"Antworte auf Deutsch und halte dich kurz. Beginne deine "
-                f"Antwort nicht mit ja oder nein, sondern direkt mit einer "
-                f"Begründung auf die folgende Frage: Wäre diese Person ein "
-                f"geeigneter Partner für eine Kollaboration ausgehend von "
-                f"dieser Frage: {query}. Bitte erläutere und verwende "
-                f"wenn möglich Verweise auf den Text. Nenne "
-                f"auch den Namen der Person in deinem Text.")
-
-    # ToDo:
-    #   - url / full document retrieval & summary
-    #   - vs. retrieved chunk + full name variable
-    #   - prompt: try to find a connection where the person could assist
-    #   - server / FastAPI
-    #   - websocket / stream - vs. single request (wait long for full response)
+    question = f"Answer in German. Find a connection to why this person was \
+                 was found as a fitting match to the user query. Start your \
+                 response with the person's name. If you are not sure ask \
+                 the user to rephrase the query. \
+                 Query: {query} \
+                 Helpful Answer: {name}"
 
     return qa_document_chain.run(
         input_document=input_document,
