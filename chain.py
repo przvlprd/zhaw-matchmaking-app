@@ -11,17 +11,17 @@ qa_chain = load_qa_chain(llm, chain_type="map_reduce")
 qa_document_chain = AnalyzeDocumentChain(combine_docs_chain=qa_chain)
 
 
-def get_context(url: str, query: str):
+def get_context(name: str, url: str, query: str) -> str:
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     profile = soup.find('div', class_='zhaw-person')
     raw_profile = profile.get_text()
     cleaned_profile = preprocess_profile(raw_profile)
 
-    return run_qa_document_chain(cleaned_profile, query)
+    return run_qa_document_chain(name, cleaned_profile, query)
 
 
-def run_qa_document_chain(input_document: str, query: str):
+def run_qa_document_chain(name: str, input_document: str, query: str):
 
     question = (f"Antworte auf Deutsch und halte dich kurz. Beginne deine "
                 f"Antwort nicht mit ja oder nein, sondern direkt mit einer "
@@ -33,6 +33,8 @@ def run_qa_document_chain(input_document: str, query: str):
 
     # versuche eine verbindung zu finden, wo die person helfen könnte
     # API implementieren / statt Panel
+
+    # verwende Namen aus Variable
 
     # websocket / stream - statt request
     # bis alle nachrichten fertig gesendet wurden
