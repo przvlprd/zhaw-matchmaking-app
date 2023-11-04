@@ -1,23 +1,22 @@
 import panel as pn
-from retrieve import get_relevant_sources
-from context_chain import get_context
+from retrieve import get_relevant_results
+from chain import get_context
 
 
-def callback(contents: str, user: str, instance: pn.chat.ChatInterface):
-    sources = get_relevant_sources(contents)
-    urls = []
+def callback(user_input: str, user: str, instance: pn.chat.ChatInterface):
+    results = get_relevant_results(user_input)
 
-    message = "Folgende Mitarbeiter könnten interessant für dich sein:"
-    for source in sources:
-        url = f"https://www.zhaw.ch/de/ueber-uns/person/{source}"
-        urls.append(url)
-        message += f"\n{url}"
+    message = "Folgende Mitarbeiter könnten interessant für dich sein:\n"
+
+    for name, url in zip(results[0], results[1]):
+        message += f"\n{name}\n{url}\n"
     send_message(message)
 
-    for url in urls:
-        context = get_context(url, contents)
+    for name, url in zip(results[0], results[1]):
+        context = get_context(name, url, user_input)
         send_message(context)
 
+    # ToDo: update method to send messages (asynchronous?)
     # return message
 
 
