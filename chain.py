@@ -31,14 +31,12 @@ def run_qa_document_chain(name: str, input_document: str, query: str):
                 f"wenn möglich Verweise auf den Text. Nenne "
                 f"auch den Namen der Person in deinem Text.")
 
-    # versuche eine verbindung zu finden, wo die person helfen könnte
-    # API implementieren / statt Panel
-
-    # verwende Namen aus Variable
-
-    # websocket / stream - statt request
-    # bis alle nachrichten fertig gesendet wurden
-    # Datenaustausch zwischen Modell und Frontend
+    # ToDo:
+    #   - url / full document retrieval & summary
+    #   - vs. retrieved chunk + full name variable
+    #   - prompt: try to find a connection where the person could assist
+    #   - server / FastAPI
+    #   - websocket / stream - vs. single request (wait long for full response)
 
     return qa_document_chain.run(
         input_document=input_document,
