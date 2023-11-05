@@ -34,9 +34,7 @@ def query(user_input_request: UserInputRequest):
         context = get_context(name, url, user_input)
         message += context
 
-    response_data = {'output': message}
-
-    return response_data
+    return {'output': message}
 
 
 if __name__ == "__main__":
