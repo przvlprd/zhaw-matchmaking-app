@@ -1,9 +1,12 @@
+from dotenv import load_dotenv, find_dotenv
 import requests
 from bs4 import BeautifulSoup
 from langchain.llms import OpenAI
 from langchain.chains import AnalyzeDocumentChain
 from langchain.chains.question_answering import load_qa_chain
 from ingest.preprocess_profile_data import preprocess_profile
+
+_ = load_dotenv(find_dotenv())
 
 llm = OpenAI(temperature=0)
 qa_chain = load_qa_chain(llm, chain_type="map_reduce")
@@ -24,8 +27,8 @@ def run_qa_document_chain(name: str, input_document: str, query: str):
 
     question = f"Answer in German. Find a connection to why this person was \
                  was found as a fitting match to the user query. Start your \
-                 response with the person's name. If you are not sure ask \
-                 the user to rephrase the query. \
+                 response with the person's name. If you are not sure find \
+                 something about the person the user could be interested in. \
                  Query: {query} \
                  Helpful Answer: {name}"
 
