@@ -29,8 +29,22 @@ pip install -r requirements.txt
 panel serve app.py --autoreload --show
 ```
 
-### Server / REST API (tbd)
-- not working yet
+### Server / REST API
+- run the uvicorn server
 ```shell
-uvicorn.run(app, host="0.0.0.0", port=8000)
+python server.py
+```
+- send a POST request to `http://localhost:8000/query/` with
+  - `user_input` - the search query - **necessary**
+  - `search` - the search type *(optional)*
+    - `"sim"` similarity search *(default)*
+    - `"mmr"` maximum marginal relevance search
+  - `k` - number of retrieved documents *(optional)*
+    - `4` *(default)*, int 1 - 50
+```shell
+curl -X POST -H "Content-Type: application/json" -d '{
+    "user_input": "your search query",
+    "search": "sim",
+    "k": 4
+}' http://localhost:8000/query/
 ```
