@@ -41,10 +41,23 @@ python server.py
     - `"mmr"` maximum marginal relevance search
   - `k` - number of retrieved documents *(optional)*
     - `4` *(default)*, int 1 - 50
+- returns a JSON
 ```shell
 curl -X POST -H "Content-Type: application/json" -d '{
     "user_input": "your search query",
     "search": "sim",
     "k": 4
 }' http://localhost:8000/query/
+```
+
+#### Streaming
+
+- as above, but send a POST request to `http://localhost:8000/query-stream/`
+- returns streamed text
+```shell
+curl -X POST -H "Content-Type: application/json" -d '{
+    "user_input": "your search query",
+    "search": "sim",
+    "k": 4
+}' http://localhost:8000/query-stream/
 ```
