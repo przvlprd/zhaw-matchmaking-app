@@ -1,14 +1,14 @@
 from dotenv import load_dotenv, find_dotenv
 import requests
 from bs4 import BeautifulSoup
-from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
 from langchain.chains import AnalyzeDocumentChain
 from langchain.chains.question_answering import load_qa_chain
 from ingest.preprocess_profile_data import preprocess_profile
 
 _ = load_dotenv(find_dotenv())
 
-llm = OpenAI(temperature=0)
+llm = ChatOpenAI(temperature=0, model="gpt-4-1106-preview")
 qa_chain = load_qa_chain(llm, chain_type="map_reduce")
 qa_document_chain = AnalyzeDocumentChain(combine_docs_chain=qa_chain)
 

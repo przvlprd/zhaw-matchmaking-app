@@ -30,6 +30,8 @@ panel serve app.py --autoreload --show
 ```
 
 ### Server / REST API
+
+#### Local
 - run the uvicorn server
 ```shell
 python server.py
@@ -61,3 +63,6 @@ curl -X POST -H "Content-Type: application/json" -d '{
     "k": 4
 }' http://localhost:8000/query-stream/
 ```
+
+#### Hosted
+- send the request to `https://zhaw-matchmaking-app--przvlprd.repl.co/query/` or `https://zhaw-matchmaking-app--przvlprd.repl.co/query-stream` instead
