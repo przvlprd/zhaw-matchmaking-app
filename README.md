@@ -65,4 +65,6 @@ curl -X POST -H "Content-Type: application/json" -d '{
 ```
 
 #### Hosted
-- send the request to `https://zhaw-matchmaking-app--przvlprd.repl.co/query/` or `https://zhaw-matchmaking-app--przvlprd.repl.co/query-stream` instead
+- send the request to either </br>
+  `https://zhaw-matchmaking-app--przvlprd.repl.co/query/` </br>
+  `https://zhaw-matchmaking-app--przvlprd.repl.co/query-stream/`
