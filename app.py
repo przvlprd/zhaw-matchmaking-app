@@ -50,6 +50,8 @@ chat_interface.send(
 )
 
 template = pn.template.BootstrapTemplate(
-    sidebar=[k_slider, search_select], main=[chat_interface]
+  title="ZHAW MatchMaking App",
+  sidebar=[k_slider, search_select],
+  main=[chat_interface]
 )
 template.servable()
