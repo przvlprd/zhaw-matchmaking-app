@@ -1,10 +1,24 @@
 import panel as pn
 from retrieve import get_relevant_results
 from chain import get_context
+pn.extension()
+
+
+k_slider = pn.widgets.IntSlider(
+    name="Number of Relevant Chunks", start=1, end=15, step=1, value=4
+)
+search_select = pn.widgets.RadioButtonGroup(
+    name="Search type", options=["sim", "mmr"],
+    description="Search type for vectordb"
+)
 
 
 def callback(user_input: str, user: str, instance: pn.chat.ChatInterface):
-    results = get_relevant_results(user_input)
+    results = get_relevant_results(
+        query=user_input,
+        k=k_slider.value,
+        search=search_select.value
+    )
 
     message = "Folgende Mitarbeiter könnten interessant für dich sein:\n"
 
@@ -35,4 +49,7 @@ chat_interface.send(
     respond=False
 )
 
-chat_interface.servable()
+template = pn.template.BootstrapTemplate(
+    sidebar=[k_slider, search_select], main=[chat_interface]
+)
+template.servable()
