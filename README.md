@@ -7,8 +7,9 @@
   - send your request to either (see [below](#requests) for 
     instructions): </br>
   `https://zhaw-matchmaking-api--przvlprd.repl.co/query/` </br>
-  `https://zhaw-matchmaking-api--przvlprd.repl.co/query-stream/`
+  `https://zhaw-matchmaking-api--przvlprd.repl.co/query-stream/` </br>
 
+*(it can take up to 30s to get the replit repos started)*
 ## Local Setup
 
 ### Prerequisites
