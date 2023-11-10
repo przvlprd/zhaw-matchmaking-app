@@ -26,8 +26,8 @@ def get_context(name: str, url: str, query: str) -> str:
 def run_qa_document_chain(name: str, input_document: str, query: str):
 
     question = f"Answer in German. Find a connection to why this person was \
-                 was found as a fitting match to the user query. Start your \
-                 response with the person's name. If you are not sure find \
+                 found as a fitting match to the user query. Start your \
+                 response with the person's name. If you are not sure, find \
                  something about the person the user could be interested in. \
                  Query: {query} \
                  Helpful Answer: {name}"
