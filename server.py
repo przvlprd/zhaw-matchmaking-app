@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from enum import Enum
 from pydantic import BaseModel, conint
 
@@ -9,14 +12,31 @@ from retrieve import get_relevant_results
 
 
 class SearchOptions(str, Enum):
-    sim = "sim"  # similarity search, default
-    mmr = "mmr"  # maximum marginal relevance
+    """
+    Enumeration for specifying search options.
+
+    Options:
+    - `sim`: Similarity search (default).
+    - `mmr`: Maximum marginal relevance.
+    """
+    sim = "sim"
+    mmr = "mmr"
 
 
 class UserInputRequest(BaseModel):
+    """
+    Model for representing user input request.
+
+    Attributes:
+    - `user_input` (str): The input provided by the user.
+    - `search` (SearchOptions): The search option,
+                                default is `SearchOptions.sim`.
+    - `k` (int): The number of documents returned by the retriever
+                 (between 1 and 49), default is 4.
+    """
     user_input: str
     search: SearchOptions = SearchOptions.sim
-    k: conint(ge=1, lt=50) = 4  # number of documents returned by retriever
+    k: conint(ge=1, lt=50) = 4
 
 
 app = FastAPI()
@@ -24,12 +44,21 @@ app = FastAPI()
 
 @app.post("/query/")
 def query(user_input_request: UserInputRequest):
+    """
+    Endpoint for handling user queries.
+
+    Parameters:
+    - user_input_request (UserInputRequest): Request object containing user
+                                             input details.
+
+    Returns:
+    dict: JSON - Response containing the formatted message.
+    """
     user_input = user_input_request.user_input
     search = user_input_request.search
     k = user_input_request.k
 
     results = get_relevant_results(user_input, search, k)
-
     message = "Folgende Mitarbeiter könnten interessant für dich sein:\n"
 
     for name, url in zip(results[0], results[1]):
@@ -42,6 +71,16 @@ def query(user_input_request: UserInputRequest):
 
 @app.post("/query-stream/")
 async def query_stream(user_input_request: UserInputRequest):
+    """
+    Endpoint for handling user queries with streaming response.
+
+    Parameters:
+    - user_input_request (UserInputRequest): Request object containing user
+                                             input details.
+
+    Returns:
+    StreamingResponse: Streaming response containing the formatted message.
+    """
     user_input = user_input_request.user_input
     search = user_input_request.search
     k = user_input_request.k
