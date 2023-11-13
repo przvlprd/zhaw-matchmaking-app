@@ -1,5 +1,8 @@
 # ZHAW MatchMaking
 
+A simple chatbot which takes a user query as input and suggests people to 
+collaborate with based on the context of their profile data.
+
 ## Hosted on Replit
 
 - [Panel App](https://zhaw-matchmaking-app--przvlprd.repl.co/app)
@@ -9,9 +12,10 @@
   `https://zhaw-matchmaking-api--przvlprd.repl.co/query/` </br>
   `https://zhaw-matchmaking-api--przvlprd.repl.co/query-stream/` </br>
 
-*(it can take up to 30s to get the replit repos started)*
+*(it can take up to 30s to get the replit repos running)*
 ## Local Setup
-
+You need (access to) a vector database which contains the different user 
+profiles. You can see the [background material repo](https://github.com/przvlprd/zhaw-matchmaking-material) on how this was created.
 ### Prerequisites
 - create & activate virtual environment
 ```shell
@@ -77,3 +81,24 @@ curl -X POST -H "Content-Type: application/json" -d '{
 }' http://localhost:8000/query-stream/
 ```
 
+### TBD
+This project serves as a first *proof-of-concept*. Things which could be done 
+include:
+- thorough debugging and testing
+- adding interactive chatbot capabilities & memory
+  - only using retrieval when necessary
+  - would also include keyword extraction from the query, instead of 
+    using the whole query for retrieval
+- getting more varied results
+  - e.g. random selection from retrieved chunks
+- taking advantage of GPT-4 Turbo's increased context window size (up to 
+  128k tokens) for analyzing the relevant profile documents
+  - using the retrieved chunks as context instead of scraping & analyzing 
+    the whole profile data each time
+- automatically scraping the website & updating the vectordb for removed, 
+  newly added, and changed profiles
+- multilingual support
+  - detecting the input language and using it for response generation
+- getting rid of possibly bloated *LangChain* implementation
+- working frontend (e.g. with React) other than the current Panel app
+- ...
