@@ -1,7 +1,19 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import re
 
 
-def preprocess_profile(raw_data: str):
+def preprocess_profile(raw_data: str) -> str:
+    """
+    Preprocess raw profile data to clean and format it.
+
+    Args:
+        raw_data (str): Raw profile data.
+
+    Returns:
+        str: Cleaned and formatted profile data.
+    """
     # Remove all obsolete whitespace
     cleaned_str = re.sub(r'\s+', ' ', raw_data)
 
@@ -14,3 +26,7 @@ def preprocess_profile(raw_data: str):
     cleaned_str = re.sub(pattern, r'\1 \2', cleaned_str)
 
     return cleaned_str
+
+
+# Example usage
+# cleaned_profile = preprocess_profile(raw_profile_data)
