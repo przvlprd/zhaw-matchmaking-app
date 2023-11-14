@@ -46,7 +46,8 @@ def callback(user_input: str, user: str, instance: pn.chat.ChatInterface):
     # Format and send results as a message
     message = "Folgende Mitarbeiter könnten interessant für dich sein:\n"
     for name, url in zip(results[0], results[1]):
-        message += f"\n{name}\n{url}\n"
+        # message += f"\n{name}\n{url}\n"
+        message += f"<br><a href='{url}' target='_blank'>{name}</a><br>"
     send_message(message, instance)
 
     # Retrieve and send contextual information for each result
