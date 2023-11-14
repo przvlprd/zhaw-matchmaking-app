@@ -3,11 +3,19 @@
 A simple chatbot which takes a user query as input and suggests people to 
 collaborate with based on the context of their profile data.
 
+- [Hosted on Replit](#hosted-on-replit)
+- [Local Setup](#local-setup)
+  - [Prerequisites](#prerequisites)
+  - [Panel App](#panel-app)
+  - [REST API](#server--rest-api)
+    - [Request Templates](#request-templates)
+- [TBD](#tbd)
+
 ## Hosted on Replit
 
 - [Panel App](https://zhaw-matchmaking-app--przvlprd.repl.co/app)
 - REST API: [Docs](https://zhaw-matchmaking-api--przvlprd.repl.co/docs)
-  - send your request to either (see [below](#requests) for 
+  - send your request to either (see [below](#request-templates) for 
     instructions): </br>
   `https://zhaw-matchmaking-api--przvlprd.repl.co/query/` </br>
   `https://zhaw-matchmaking-api--przvlprd.repl.co/query-stream/` </br>
@@ -54,7 +62,7 @@ panel serve app.py --autoreload --show
 python server.py
 ```
 
-#### Requests
+#### Request Templates
 - send a POST request to `http://localhost:8000/query/` with
   - `user_input` - the search query - **necessary**
   - `search` - the search type *(optional)*
@@ -83,7 +91,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 }' http://localhost:8000/query-stream/
 ```
 
-### TBD
+## TBD
 This project serves as a first *proof-of-concept*. Things which could be done 
 include:
 - thorough debugging and testing
@@ -104,3 +112,5 @@ include:
 - getting rid of possibly bloated *LangChain* implementation
 - working frontend (e.g. with React) other than the current Panel app
 - ...
+
+**Feel free to reach out in case something is broken!**
