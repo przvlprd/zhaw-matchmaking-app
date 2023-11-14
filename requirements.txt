@@ -10,3 +10,4 @@ panel
 fastapi
 uvicorn
 pydantic
+notebook
