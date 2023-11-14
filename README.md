@@ -13,10 +13,10 @@ collaborate with based on the context of their profile data.
   `https://zhaw-matchmaking-api--przvlprd.repl.co/query-stream/` </br>
 
 *(it may take up to 30s to get the replit repos running)*
+
 ## Local Setup
-You need (access to) a vector database which contains the different user 
-profiles. You can see the `ingest` script in the dedicated folder as well 
-as the [background material repo](https://github.com/przvlprd/zhaw-matchmaking-material) on how this was created.
+Follow the notebook `Guide from Scratch.ipynb` to reproduce the steps 
+needed to run the bot locally or deploy it.
 
 ### Prerequisites
 - create & activate virtual environment
