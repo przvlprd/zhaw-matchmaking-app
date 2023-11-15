@@ -80,7 +80,7 @@ def query(user_input_request: UserInputRequest):
     for name, url in zip(results[0], results[1]):
         message += f"\n{name}\n{url}\n"
         context = get_context(name, url, user_input)
-        message += context[1:] + "\n"
+        message += context + "\n"
 
     return {'output': message}
 
@@ -109,7 +109,7 @@ async def query_stream(user_input_request: UserInputRequest):
         for name, url in zip(results[0], results[1]):
             new_message = f"\n{name}\n{url}\n"
             context = get_context(name, url, user_input)
-            new_message += context[1:] + "\n"
+            new_message += context + "\n"
             yield new_message
 
     return StreamingResponse(content=generate_response())
@@ -117,4 +117,4 @@ async def query_stream(user_input_request: UserInputRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="localhost", port=8000)
