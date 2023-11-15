@@ -3,6 +3,13 @@
 A simple chatbot which takes a user query as input and suggests people to 
 collaborate with based on the context of their profile data.
 
+<div align="center">
+
+![zhaw-matchmaking-bot.png](img.png)
+</div>
+
+## Contents
+
 - [Hosted on Replit](#hosted-on-replit)
 - [Local Setup](#local-setup)
   - [Prerequisites](#prerequisites)
@@ -10,11 +17,6 @@ collaborate with based on the context of their profile data.
   - [REST API](#server--rest-api)
     - [Request Templates](#request-templates)
 - [TBD](#tbd)
-
-<div align="center">
-
-![zhaw-matchmaking-bot.png](img.png)
-</div>
 
 ## Hosted on Replit
 
