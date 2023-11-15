@@ -5,7 +5,22 @@ import panel as pn
 from retrieve import get_relevant_results
 from chain import get_context
 
+
 pn.extension()
+
+# Define the info text in the sidebar
+info_text = """
+### Retrieval Settings
+
+- **Chunks retrieved from vectordb:**<br>The number of chunks to retrieve - \
+*not* equivalent to the number of persons found. Some persons may have \
+longer profile pages and thus multiple chunks in the database.<br><br>
+- **Search type:**<br>*Similarity Search* retrieves chunks most similar to \
+the user query.<br>*Maximum Marginal Relevance* aims at relevance to the \
+user query and diversity among the results.
+"""
+
+info_box = pn.pane.Markdown(info_text)
 
 # Define widgets to control parameters in the sidebar
 num_relevant_chunks_slider = pn.widgets.IntSlider(
@@ -84,13 +99,20 @@ chat_interface = pn.chat.ChatInterface(
 )
 
 # Initial message
-send_message("Wen suchst du? Beschreibe z.B. was du machst und in "
-             "welchem Bereich du gern kollaborieren würdest.", chat_interface)
+send_message(
+  "Wen suchst du? Beschreibe z.B. was du machst und in welchem Bereich "
+  "du gern kollaborieren würdest. "
+  "<br><br>*Ich suche jemanden der Erfahrung mit Blockchain hat*<br>"
+  "<br>*Ich möchte etwas mit Augmented Reality machen*<br>"
+  "<br>*Wer kann mir bei rechtlichen Angelegenheiten bei Startup-Gründung "
+  "helfen?*",
+  chat_interface
+)
 
 # Create the template
 template = pn.template.BootstrapTemplate(
   title="ZHAW MatchMaking App",
-  sidebar=[num_relevant_chunks_slider, search_type_select],
+  sidebar=[info_box, num_relevant_chunks_slider, search_type_select],
   main=[chat_interface]
 )
 
