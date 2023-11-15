@@ -11,7 +11,10 @@ collaborate with based on the context of their profile data.
     - [Request Templates](#request-templates)
 - [TBD](#tbd)
 
+<div align="center">
+
 ![zhaw-matchmaking-bot.png](img.png)
+</div>
 
 ## Hosted on Replit
 
@@ -23,6 +26,13 @@ collaborate with based on the context of their profile data.
   `https://zhaw-matchmaking-api--przvlprd.repl.co/query-stream/` </br>
 
 *(it may take up to 30s to get the replit repos running)*
+
+<div align="center">
+<a href="demo.png" target="_blank">
+  <img src="demo.png" alt="Demo" width="300"/>
+</a>
+</div>
+
 
 ## Local Setup
 Follow the notebook `Guide from Scratch.ipynb` to reproduce the steps 
