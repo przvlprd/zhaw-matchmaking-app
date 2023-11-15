@@ -11,6 +11,8 @@ collaborate with based on the context of their profile data.
     - [Request Templates](#request-templates)
 - [TBD](#tbd)
 
+![zhaw-matchmaking-bot.png](img.png)
+
 ## Hosted on Replit
 
 - [Panel App](https://zhaw-matchmaking-app--przvlprd.repl.co/app)
@@ -95,8 +97,12 @@ curl -X POST -H "Content-Type: application/json" -d '{
 This project serves as a first *proof-of-concept*. Things which could be done 
 include:
 - thorough debugging and testing
+  - error handling & unit tests
+  - adding logging for user queries and generated responses
+    - currently only the deployed version uses `LangSmith` to log llm calls
 - adding interactive chatbot capabilities & memory
-  - only using retrieval when necessary
+  - only use retrieval when necessary
+  - be able to converse with the user
   - would also include keyword extraction from the query, instead of 
     using the whole query for retrieval
 - getting more varied results
