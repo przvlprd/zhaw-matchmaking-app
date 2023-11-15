@@ -42,6 +42,22 @@ class UserInputRequest(BaseModel):
 app = FastAPI()
 
 
+@app.get("/")
+def read_root():
+    """
+    Get information about the root endpoint.
+
+    Returns:
+        dict: JSON - Response with information about the API
+              documentation at /docs and the link to the GitHub repository.
+    """
+    return {
+        "See /docs for more information or visit the Github repository for "
+        "request templates: "
+        "https://github.com/przvlprd/zhaw-matchmaking-app#request-templates"
+    }
+
+
 @app.post("/query/")
 def query(user_input_request: UserInputRequest):
     """
