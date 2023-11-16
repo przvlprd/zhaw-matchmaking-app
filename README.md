@@ -5,8 +5,8 @@
 </div>
 
 A simple chatbot which takes a user query as input and suggests people to 
-collaborate with based on the context of their profile data from the [ZHAW 
-homepage](https://www.zhaw.ch).<br><br>
+collaborate with based on the context of their profile data from the 
+<a href='https://www.zhaw.ch' target='_blank'>ZHAW Homepage</a>.<br><br>
 
 
 Interact with it via a user-friendly frontend made with Panel or as a REST 
@@ -15,7 +15,7 @@ Pinecone as a hosted vector database.
 
 <div align="center">
 
-#### [Try it out](https://zhaw-matchmaking-app--przvlprd.repl.co/app){:target="_blank"}
+#### <a href='https://zhaw-matchmaking-app--przvlprd.repl.co/app' target='_blank'>Try it out</a>
 
 </div>
 <div align="center">
@@ -34,8 +34,8 @@ Pinecone as a hosted vector database.
 
 ## Hosted on Replit
 
-- [Panel App](https://zhaw-matchmaking-app--przvlprd.repl.co/app){:target="_blank"}
-- REST API: [Docs](https://zhaw-matchmaking-api--przvlprd.repl.co/docs){:target="_blank"}
+- <a href='https://zhaw-matchmaking-app--przvlprd.repl.co/app' target='_blank'>Panel App</a>
+- <a href='https://zhaw-matchmaking-api--przvlprd.repl.co/' target= '_blank'>REST API</a>
   - send your request to either (see [below](#request-templates) for 
     instructions): </br>
   `https://zhaw-matchmaking-api--przvlprd.repl.co/query/` </br>
@@ -49,7 +49,7 @@ Pinecone as a hosted vector database.
 </a>
 </div>
 <div align="center">
-Demo of the Panel app
+Demo of the Panel App
 </div>
 
 
@@ -131,7 +131,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 ```
 
 ##### Example
-- running the [Hosted API](https://zhaw-matchmaking-api--przvlprd.repl.co/query/){:target="_blank"}
+- running the <a href='https://zhaw-matchmaking-api--przvlprd.repl.co/' target= '_blank'>REST API</a>
 on Replit (make sure the repo is running first):
 ```
 curl -X POST -H "Content-Type: application/json" -d '{
@@ -140,7 +140,8 @@ curl -X POST -H "Content-Type: application/json" -d '{
 ```
 
 ## TBD
-This project serves as a first *proof-of-concept*. Things which could be done 
+This project serves as a first *proof-of-concept* as part of an internship. 
+Things which could be done 
 include:
 - [ ] thorough debugging and testing
   - error handling & unit tests
@@ -170,3 +171,9 @@ include:
 - possibly more...
 
 **Feel free to reach out in case something is broken!**
+
+## Author
+
+**Maximilian Krupop**
+- [GitHub](https://github.com/przvlprd)
+- [LinkedIn](https://www.linkedin.com/in/maximilian-krupop/)
