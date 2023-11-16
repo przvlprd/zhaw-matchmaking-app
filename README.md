@@ -1,11 +1,20 @@
-# ZHAW MatchMaking
-
-A simple chatbot which takes a user query as input and suggests people to 
-collaborate with based on the context of their profile data.
-
 <div align="center">
 
-![zhaw-matchmaking-bot.png](img.png)
+# ZHAW MatchMaking
+
+</div>
+
+A simple chatbot which takes a user query as input and suggests people to 
+collaborate with based on the context of their profile data from the [ZHAW 
+homepage](https://www.zhaw.ch).<br>
+The backend utilises GPT-4 Turbo with LangChain as a wrapper and Pinecone 
+as a 
+hosted 
+vector 
+database.
+
+<div align="center">
+  <img src="img.png" width="400"/>
 </div>
 
 ## Contents
@@ -34,6 +43,10 @@ collaborate with based on the context of their profile data.
   <img src="demo.png" alt="Demo" width="300"/>
 </a>
 </div>
+<div align="center">
+Demo of the Panel app
+</div>
+
 
 
 ## Local Setup
@@ -108,27 +121,31 @@ curl -X POST -H "Content-Type: application/json" -d '{
 ## TBD
 This project serves as a first *proof-of-concept*. Things which could be done 
 include:
-- thorough debugging and testing
+- [ ] thorough debugging and testing
   - error handling & unit tests
-  - adding logging for user queries and generated responses
+  - add logging for user queries and generated responses
     - currently only the deployed version uses `LangSmith` to log llm calls
-- adding interactive chatbot capabilities & memory
+- [ ] refactor to OOP
+- [ ] add interactive chatbot capabilities (and memory)
   - only use retrieval when necessary
   - be able to converse with the user
-  - would also include keyword extraction from the query, instead of 
-    using the whole query for retrieval
-- getting more varied results
-  - e.g. random selection from retrieved chunks
-- taking advantage of GPT-4 Turbo's increased context window size (up to 
+- [ ] use keyword extraction from the user query (instead of  the whole 
+  query for retrieval)
+- [ ] get more varied results
+  - e.g. random selection from retrieved sources
+- [ ] get rid of possibly bloated *LangChain* implementation
+  - use custom logic (see point below)
+- [ ] take advantage of GPT-4 Turbo's increased context window size (up to 
   128k tokens) for analyzing the relevant profile documents
-  - using the retrieved chunks as context instead of scraping & analyzing 
-    the whole profile data each time
-- automatically scraping the website & updating the vectordb for removed, 
+- [ ] automate scraping the website & updating the vectordb for removed, 
   newly added, and changed profiles
-- multilingual support
-  - detecting the input language and using it for response generation
-- getting rid of possibly bloated *LangChain* implementation
-- working frontend (e.g. with React) other than the current Panel app
-- ...
+  - catch invalid profiles instead of letting LLM generate reply based on 
+    missing context
+- [ ] add multilingual support
+  - detect the user input language and use it for response generation 
+    (currently forced to reply in German)
+- [ ] add working frontend (e.g. with React) other than the current Panel 
+  template
+- possibly more...
 
 **Feel free to reach out in case something is broken!**
