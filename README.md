@@ -6,13 +6,18 @@
 
 A simple chatbot which takes a user query as input and suggests people to 
 collaborate with based on the context of their profile data from the [ZHAW 
-homepage](https://www.zhaw.ch).<br>
-The backend utilises GPT-4 Turbo with LangChain as a wrapper and Pinecone 
-as a 
-hosted 
-vector 
-database.
+homepage](https://www.zhaw.ch).<br><br>
 
+
+Interact with it via a user-friendly frontend made with Panel or as a REST 
+API. The backend is powered by GPT-4 Turbo with LangChain as a wrapper and 
+Pinecone as a hosted vector database.
+
+<div align="center">
+
+#### [Try it out](https://zhaw-matchmaking-app--przvlprd.repl.co/app){:target="_blank"}
+
+</div>
 <div align="center">
   <img src="img.png" width="400"/>
 </div>
@@ -29,14 +34,14 @@ database.
 
 ## Hosted on Replit
 
-- [Panel App](https://zhaw-matchmaking-app--przvlprd.repl.co/app)
-- REST API: [Docs](https://zhaw-matchmaking-api--przvlprd.repl.co/docs)
+- [Panel App](https://zhaw-matchmaking-app--przvlprd.repl.co/app){:target="_blank"}
+- REST API: [Docs](https://zhaw-matchmaking-api--przvlprd.repl.co/docs){:target="_blank"}
   - send your request to either (see [below](#request-templates) for 
     instructions): </br>
   `https://zhaw-matchmaking-api--przvlprd.repl.co/query/` </br>
   `https://zhaw-matchmaking-api--przvlprd.repl.co/query-stream/` </br>
 
-*(it may take up to 30s to get the replit repos running)*
+*(it may take up to 30s to get the Replit repos running)*
 
 <div align="center">
 <a href="demo.png" target="_blank">
@@ -91,18 +96,24 @@ python server.py
 
 #### Request Templates
 - send a POST request to `http://localhost:8000/query/` with
-  - `user_input` - the search query - **necessary**
-  - `search` - the search type *(optional)*
-    - `"sim"` similarity search *(default)*
-    - `"mmr"` maximum marginal relevance search
-  - `k` - number of retrieved documents *(optional)*
-    - `4` *(default)*, int 1 - 50
+  - **neccessary**
+    - `user_query` - the search query or user input
+  - **optional**
+    - `search_type` - the search type performed on the vectordb
+      - `"sim"` similarity search *(default)*
+      - `"mmr"` maximum marginal relevance search
+    - `num_chunks` - number of retrieved chunks from vectordb
+      - `3` *(default)*, int 1 - 50
+    - `full_context` - switch between shorter version of user profile for 
+      context *(default = false)* or full version for higher accuracy but 
+      slower response generation *(true)*
 - returns **JSON**
 ```shell
 curl -X POST -H "Content-Type: application/json" -d '{
-    "user_input": "your search query",
-    "search": "sim",
-    "k": 4
+    "user_query": "your search query",
+    "search_type": "sim",
+    "num_chunks": 3,
+    "full_context": false
 }' http://localhost:8000/query/
 ```
 
@@ -112,10 +123,20 @@ curl -X POST -H "Content-Type: application/json" -d '{
 - returns **streamed text**
 ```shell
 curl -X POST -H "Content-Type: application/json" -d '{
-    "user_input": "your search query",
-    "search": "sim",
-    "k": 4
+    "user_query": "your search query",
+    "search_type": "sim",
+    "num_chunks": 3,
+    "full_context": false
 }' http://localhost:8000/query-stream/
+```
+
+##### Example
+- running the [Hosted API](https://zhaw-matchmaking-api--przvlprd.repl.co/query/){:target="_blank"}
+on Replit (make sure the repo is running first):
+```
+curl -X POST -H "Content-Type: application/json" -d '{
+    "user_query": "ich möchte virtual reality in der schule einsetzen"
+}' https://zhaw-matchmaking-api--przvlprd.repl.co/query/
 ```
 
 ## TBD
