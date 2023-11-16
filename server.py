@@ -28,15 +28,20 @@ class UserInputRequest(BaseModel):
     Model for representing user input request.
 
     Attributes:
-    - `user_input` (str): The input provided by the user.
-    - `search` (SearchOptions): The search option,
-                                default is `SearchOptions.sim`.
-    - `k` (int): The number of documents returned by the retriever
-                 (between 1 and 49), default is 4.
+    - `user_query` (str): The input / search query provided by the user.
+    - `search_type` (SearchOptions): The search option,
+                                     default is `SearchOptions.sim`.
+    - `num_chunks` (int): The number of chunks returned by the retriever
+                          (between 1 and 50), default is 3.
+    - `full_context`(bool): Switch between full profile retrieved as context
+                            (slow, higher accuracy) or shorter version without
+                            a person's publications (faster, less accurate),
+                            default is false.
     """
-    user_input: str
-    search: SearchOptions = SearchOptions.sim
-    k: conint(ge=1, lt=50) = 4
+    user_query: str
+    search_type: SearchOptions = SearchOptions.sim
+    num_chunks: conint(ge=1, lt=51) = 3
+    full_context: bool = False
 
 
 app = FastAPI()
@@ -52,8 +57,8 @@ def read_root():
               documentation at /docs and the link to the GitHub repository.
     """
     return {
-        "See /docs for more information or visit the Github repository for "
-        "request templates: "
+        "See /docs or /redoc for the API documentation or visit the Github "
+        "repository for request templates: "
         "https://github.com/przvlprd/zhaw-matchmaking-app#request-templates"
     }
 
@@ -70,17 +75,18 @@ def query(user_input_request: UserInputRequest):
     Returns:
     dict: JSON - Response containing the formatted message.
     """
-    user_input = user_input_request.user_input
-    search = user_input_request.search
-    k = user_input_request.k
+    user_query = user_input_request.user_query
+    search_type = user_input_request.search_type
+    num_chunks = user_input_request.num_chunks
+    full_context = user_input_request.full_context
 
-    results = get_relevant_results(user_input, search, k)
-    message = "Folgende Mitarbeiter könnten interessant für dich sein:\n"
+    results = get_relevant_results(user_query, search_type, num_chunks)
+    message = "Folgende Mitarbeiter könnten interessant für dich sein:"
 
     for name, url in zip(results[0], results[1]):
-        message += f"\n{name}\n{url}\n"
-        context = get_context(name, url, user_input)
-        message += context + "\n"
+        message += f"\n\n{name}\n{url}\n\n"
+        context = get_context(name, url, user_query, full_context)
+        message += context
 
     return {'output': message}
 
@@ -97,19 +103,20 @@ async def query_stream(user_input_request: UserInputRequest):
     Returns:
     StreamingResponse: Streaming response containing the formatted message.
     """
-    user_input = user_input_request.user_input
-    search = user_input_request.search
-    k = user_input_request.k
+    user_query = user_input_request.user_query
+    search_type = user_input_request.search_type
+    num_chunks = user_input_request.num_chunks
+    full_context = user_input_request.full_context
 
-    results = get_relevant_results(user_input, search, k)
+    results = get_relevant_results(user_query, search_type, num_chunks)
 
     def generate_response():
-        yield "Folgende Mitarbeiter könnten interessant für dich sein:\n"
+        yield "Folgende Mitarbeiter könnten interessant für dich sein:"
 
         for name, url in zip(results[0], results[1]):
-            new_message = f"\n{name}\n{url}\n"
-            context = get_context(name, url, user_input)
-            new_message += context + "\n"
+            new_message = f"\n\n{name}\n{url}\n\n"
+            context = get_context(name, url, user_query, full_context)
+            new_message += context
             yield new_message
 
     return StreamingResponse(content=generate_response())
