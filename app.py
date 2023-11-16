@@ -9,7 +9,7 @@ from chain import get_context
 pn.extension()
 
 # Define the info text in the sidebar
-info_text = """
+retrieval_text = """
 ### Retrieval Settings
 
 - **Chunks retrieved from vectordb:**<br>The number of chunks to retrieve - \
@@ -20,7 +20,17 @@ the user query.<br>*Maximum Marginal Relevance* aims at relevance to the \
 user query and diversity among the results.
 """
 
-info_box = pn.pane.Markdown(info_text)
+context_text = """
+### Context Setting
+
+Choose whether to get a shorter version *(default)* of a person's profile \
+text or the full version including publications (can lead to high latency!). \
+<br>The shorter version helps generate replies faster but important context \
+may get lost and diminish the overall quality of the generated responses.
+"""
+
+info_box_retrieval = pn.pane.Markdown(retrieval_text)
+info_box_context = pn.pane.Markdown(context_text)
 
 # Define widgets to control parameters in the sidebar
 num_relevant_chunks_slider = pn.widgets.IntSlider(
@@ -32,6 +42,10 @@ search_type_select = pn.widgets.RadioButtonGroup(
     options={"Similarity Search": "sim",
              "Maximum Marginal Relevance": "mmr"},
     description="Search type for vectordb"
+)
+full_context_checkbox = pn.widgets.Checkbox(
+    name="Use full context (including publications)",
+    value=False,
 )
 
 
@@ -66,7 +80,12 @@ def callback(user_input: str, user: str, instance: pn.chat.ChatInterface):
 
     # Retrieve and send contextual information for each result
     for name, url in zip(results[0], results[1]):
-        context = get_context(name, url, user_input)
+        context = get_context(
+            name=name,
+            url=url,
+            query=user_input,
+            full=full_context_checkbox.value
+        )
         context += f"<br><a href='{url}' target='_blank'>Zum Profil</a><br>"
         send_message(context, instance)
 
@@ -112,7 +131,13 @@ send_message(
 # Create the template
 template = pn.template.BootstrapTemplate(
   title="ZHAW MatchMaking App",
-  sidebar=[info_box, num_relevant_chunks_slider, search_type_select],
+  sidebar=[
+      info_box_retrieval,
+      num_relevant_chunks_slider,
+      search_type_select,
+      info_box_context,
+      full_context_checkbox
+  ],
   main=[chat_interface]
 )
 
