@@ -19,15 +19,20 @@ qa_chain = load_qa_chain(llm, chain_type="map_reduce")
 qa_document_chain = AnalyzeDocumentChain(combine_docs_chain=qa_chain)
 
 
-def get_context(name: str, url: str, query: str) -> str:
+def get_context(name: str, url: str, query: str, full: bool = False) -> str:
     """
     Get context about a person by scraping their profile page and
-    running a question-answering chain.
+    running a question-answering chain. Choose whether to get the full profile
+    text with publications (can lead to very high latency!) or a shorter
+    version which helps generate replies much faster. However, important
+    context may get lost and diminish the quality of the generated responses.
 
     Parameters:
     - name (str): The name of the person.
     - url (str): The URL of the person's profile page.
     - query (str): The user's query.
+    - full (bool): Choose whether to get the full profile text with
+                   publications or a shorter version. Default: False (shorter)
 
     Returns:
     str: Contextual information about the person.
@@ -35,8 +40,25 @@ def get_context(name: str, url: str, query: str) -> str:
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     profile = soup.find('div', class_='zhaw-person')
-    raw_profile = profile.get_text()
-    cleaned_profile = preprocess_profile(raw_profile)
+
+    if full:
+        cleaned_profile = preprocess_profile(profile.get_text())
+    else:
+        # Check if there is a publications header and discard the content
+        publication_header = soup.find('h2', string='Publikationen')
+        if publication_header:
+            index_pub_header = profile.get_text().find(
+                publication_header.get_text())
+
+            # Extract content before the index
+            cleaned_profile = preprocess_profile(
+                profile.get_text()[:index_pub_header]
+            )
+        else:
+            # If the header is not found, use the entire profile
+            cleaned_profile = preprocess_profile(
+                profile.get_text()
+            )
 
     return run_qa_document_chain(name, cleaned_profile, query)
 
